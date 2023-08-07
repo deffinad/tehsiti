@@ -9,7 +9,7 @@ import CarouselImg2 from './../../assets/carousel2.jpg';
 import CarouselImg3 from './../../assets/carousel3.jpg';
 import CarouselImg4 from './../../assets/carousel4.jpg';
 import { COLORS } from '../contains/index'
-import Card, { CardInformasiItem, CardInformasiJalan } from '../component/Card';
+import Card, { CardInformasiItem, CardInformasiJalan } from '../components/Card';
 import { useNavigation } from '@react-navigation/native';
 import { faArchway, faCity, faEarthAsia, faRoad } from '@fortawesome/free-solid-svg-icons';
 import { getRuasJalan } from '../services';
@@ -166,6 +166,7 @@ const Home = () => {
 
                 <View style={{ marginHorizontal: 24 }}>
                     <FlatList
+                        scrollEnabled={false}
                         data={dataRuas.splice(0, 5)}
                         renderItem={({ item, index }) => (
                             <CardInformasiJalan item={item} index={index} />

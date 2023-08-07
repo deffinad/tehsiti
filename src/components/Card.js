@@ -49,7 +49,7 @@ export const CardInformasiItem = ({ item, index }) => {
                     <FontAwesomeIcon icon={item.icon} color={COLORS.secondary} size={36} />
                 </View>
             </View>
-            <Text style={{ fontFamily: 'Lexend-Medium' }}>{item.label}</Text>
+            <Text>{item.label}</Text>
         </Card>
     );
 };

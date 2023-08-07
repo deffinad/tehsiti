@@ -4,7 +4,7 @@
     "slug": "tehsiti",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo.png",
+    "icon": "./assets/ic_launcher.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -19,12 +19,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/ic_launcher.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.deffinad.tehsiti"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1571a210-4e0e-45bf-93b4-2c4ee6bfd236"
+      }
     }
   }
 }

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, Text, TextInput, View } from 'react-native'
-import Card, { CardInformasiJalan } from '../../component/Card'
+import Card, { CardInformasiJalan } from '../../components/Card'
 import { COLORS } from '../../contains'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { getRuasJalan } from '../../services'
+import EmptyList from '../../components/EmptyList'
 
 const Lingkungan = ({ navigation }) => {
     const [dataRuas, setDataRuas] = useState([])
@@ -55,6 +56,9 @@ const Lingkungan = ({ navigation }) => {
                 data={search === '' ? dataRuas : filteredData}
                 renderItem={({ item, index }) => (
                     <CardInformasiJalan item={item} index={index} onClick={() => navigation.navigate('Detail', { id: item.no_ruas, nama: item.ruas_jalan, type: 'lingkungan' })} />
+                )}
+                ListEmptyComponent={() => (
+                    <EmptyList />
                 )}
                 extraData={item => item.no_ruas}
             />
