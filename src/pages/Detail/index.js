@@ -1,5 +1,3 @@
-import { faChevronLeft, faSearch } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { useRoute } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
@@ -8,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { COLORS } from '../../contains'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { getRuasJalan, getRuasJalanById } from '../../services'
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const Detail = ({ navigation }) => {
     const route = useRoute()
@@ -21,15 +20,14 @@ const Detail = ({ navigation }) => {
         setItems([])
         getRuasJalan(type)
             .then(data => {
+                let arr = []
                 data.data.map(value => {
-                    setItems(prev => [
-                        ...prev,
-                        {
-                            label: value.ruas_jalan,
-                            value: value.no_ruas
-                        }
-                    ])
+                    arr.push({
+                        label: value.ruas_jalan,
+                        value: value.no_ruas
+                    })
                 })
+                setItems(arr)
             })
             .catch(err => {
                 console.error(err);
@@ -53,7 +51,7 @@ const Detail = ({ navigation }) => {
             <View style={{ backgroundColor: COLORS.primary, padding: 24, display: 'flex', gap: 16, alignItems: 'flex-start' }}>
                 <Pressable onPress={() => navigation.goBack()}>
                     <View style={{ backgroundColor: 'white', borderRadius: 100, width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
-                        <FontAwesomeIcon icon={faChevronLeft} />
+                        <FontAwesome5 name='chevron-left' size={18} />
                     </View>
                 </Pressable>
                 <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Rekapitulasi Data Kinerja Ruas Jalan Kota Sukabumi Tahun 2023</Text>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, Text, TextInput, View } from 'react-native'
+import { FlatList, ScrollView, Text, TextInput, View } from 'react-native'
 import Card, { CardInformasiJalan } from '../../components/Card'
 import { COLORS } from '../../contains'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesome5 } from '@expo/vector-icons'
 import { getRuasJalan } from '../../services'
 import EmptyList from '../../components/EmptyList'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Provinsi = ({ navigation }) => {
     const [dataRuas, setDataRuas] = useState([])
@@ -41,9 +41,9 @@ const Provinsi = ({ navigation }) => {
     };
 
     return (
-        <View style={{ paddingVertical: 24, display: 'flex', gap: 20, paddingBottom: 75 }}>
+        <SafeAreaView style={{ display: 'flex', gap: 20, flex: 1 }}>
             <Card style={{ paddingHorizontal: 16, paddingVertical: 10, display: 'flex', alignItems: 'center', flexDirection: 'row', gap: 8 }}>
-                <FontAwesomeIcon icon={faSearch} color='grey' />
+                <FontAwesome5 name='search' color='grey' size={18} />
                 <TextInput
                     cursorColor={COLORS.primary}
                     placeholder='Cari jalan disini'
@@ -52,17 +52,19 @@ const Provinsi = ({ navigation }) => {
                     onChangeText={(value) => handleSearch(value)}
                 />
             </Card>
-            <FlatList
-                data={search === '' ? dataRuas : filteredData}
-                renderItem={({ item, index }) => (
-                    <CardInformasiJalan item={item} index={index} onClick={() => navigation.navigate('Detail', { id: item.no_ruas, nama: item.ruas_jalan, type: 'provinsi' })} />
-                )}
-                ListEmptyComponent={() => (
-                    <EmptyList />
-                )}
-                extraData={item => item.no_ruas}
-            />
-        </View>
+            <View style={{ flex: 1 }}>
+                <FlatList
+                    data={search === '' ? dataRuas : filteredData}
+                    renderItem={({ item, index }) => (
+                        <CardInformasiJalan item={item} index={index} onClick={() => navigation.navigate('Detail', { id: item.no_ruas, nama: item.ruas_jalan, type: 'kota' })} />
+                    )}
+                    ListEmptyComponent={() => (
+                        <EmptyList />
+                    )}
+                    extraData={item => item.no_ruas}
+                />
+            </View>
+        </SafeAreaView>
     )
 }
 

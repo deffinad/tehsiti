@@ -1,12 +1,13 @@
 import React from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { COLORS } from '../../contains'
 import { StatusBar } from 'expo-status-bar'
 import { useNavigation } from '@react-navigation/native'
 import TopTabs from '../../components/TopTabs'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesome5 } from '@expo/vector-icons'
+
+const HEIGHT = Dimensions.get('window').height - 80;
 
 const RuasJalan = () => {
     const navigation = useNavigation()
@@ -17,7 +18,7 @@ const RuasJalan = () => {
             <View style={{ display: 'flex', justifyContent: 'center', padding: 24, alignItems: 'center' }}>
                 <Pressable onPress={() => navigation.goBack()} style={{ position: 'absolute', left: 24 }}>
                     <View style={{ borderRadius: 100, width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
-                        <FontAwesomeIcon icon={faChevronLeft} />
+                        <FontAwesome5 name='chevron-left' size={18} />
                     </View>
                 </Pressable>
                 <View style={{ display: 'flex', flexDirection: 'row', gap: 8, justifyContent: 'center' }}>

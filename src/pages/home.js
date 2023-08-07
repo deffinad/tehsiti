@@ -9,10 +9,10 @@ import CarouselImg2 from './../../assets/carousel2.jpg';
 import CarouselImg3 from './../../assets/carousel3.jpg';
 import CarouselImg4 from './../../assets/carousel4.jpg';
 import { COLORS } from '../contains/index'
-import Card, { CardInformasiItem, CardInformasiJalan } from '../components/Card';
+import { CardInformasiItem, CardInformasiJalan } from '../components/Card';
 import { useNavigation } from '@react-navigation/native';
-import { faArchway, faCity, faEarthAsia, faRoad } from '@fortawesome/free-solid-svg-icons';
 import { getRuasJalan } from '../services';
+import EmptyList from '../components/EmptyList';
 const SLIDER_WIDTH = Dimensions.get('window').width;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.9);
 
@@ -25,19 +25,19 @@ const dataCarousel = [
 
 const dataInformasi = [
     {
-        icon: faCity,
+        icon: 'city',
         label: 'Kota'
     },
     {
-        icon: faArchway,
+        icon: 'archway',
         label: 'Provinsi',
     },
     {
-        icon: faEarthAsia,
+        icon: 'globe-asia',
         label: 'Nasional'
     },
     {
-        icon: faRoad,
+        icon: 'road',
         label: 'Lingkungan'
     }
 ]
@@ -165,14 +165,21 @@ const Home = () => {
                 </View>
 
                 <View style={{ marginHorizontal: 24 }}>
-                    <FlatList
-                        scrollEnabled={false}
-                        data={dataRuas.splice(0, 5)}
-                        renderItem={({ item, index }) => (
-                            <CardInformasiJalan item={item} index={index} />
-                        )}
-                        extraData={item => item.no_ruas}
-                    />
+                    {
+                        dataRuas ? (
+                            <FlatList
+                                scrollEnabled={false}
+                                data={dataRuas.splice(0, 5)}
+                                renderItem={({ item, index }) => (
+                                    <CardInformasiJalan item={item} index={index} />
+                                )}
+                                extraData={item => item.no_ruas}
+                                ListEmptyComponent={() => (
+                                    <EmptyList />
+                                )}
+                            />
+                        ) : null
+                    }
                 </View>
             </SafeAreaView>
         </ScrollView>

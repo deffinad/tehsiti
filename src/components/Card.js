@@ -1,9 +1,7 @@
 import React from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { COLORS } from '../contains';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useNavigation } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 const Card = ({ children, style }) => {
     return (
@@ -45,8 +43,8 @@ export const CardInformasiItem = ({ item, index }) => {
         <Card style={{ display: 'flex', gap: 5, width: 100, height: 100, marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ position: 'relative' }}>
                 <View style={{ width: 45, height: 45, backgroundColor: COLORS.primary, borderRadius: 100 }}></View>
-                <View style={{ position: 'absolute', right: -5, top: 5 }}>
-                    <FontAwesomeIcon icon={item.icon} color={COLORS.secondary} size={36} />
+                <View style={{ position: 'absolute', right: -3, top: 5 }}>
+                    <FontAwesome5 name={item.icon} color={COLORS.secondary} size={28} />
                 </View>
             </View>
             <Text>{item.label}</Text>
