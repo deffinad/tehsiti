@@ -281,3 +281,7 @@ const nasional = [
         vc_ratio: 0.759966358284273,
     },
 ]
+
+module.exports = {
+    kota, provinsi, nasional
+};

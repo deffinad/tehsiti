@@ -1,7 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 const cors = require("cors");
-const { getRuasJalan, getRuasJalanById } = require("../controller/ruasJalan");
+const { getRuasJalan, getRuasJalanById, postData } = require("../controller/ruasJalan");
 
 var router = express.Router();
 router.use(bodyParser.json());
@@ -26,8 +26,9 @@ router.get("/", function (req, res, next) {
         .json({ message: "Welcome to Express API TEHSITI" });
 });
 
-router.get("/ruas/:type", getRuasJalan);
+// router.get("/ruas/:type", getRuasJalan);
 router.get("/ruas/:type/:id", getRuasJalanById);
+router.get("/ruas/:type", postData);
 
 
 module.exports = router;
