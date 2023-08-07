@@ -28,9 +28,9 @@ const getRuasJalan = async (req, res) => {
 
 const getRuasJalanById = async (req, res) => {
     try {
-        const checkIdRuas = await mRuasJalan.checkIdRuasJalan(req.params.id, req.params.type);
+        const checkIdRuas = await mRuasJalan.checkIdRuasJalan(req.params.id);
         if (checkIdRuas) {
-            const result = await mRuasJalan.getDataRuasJalanById(req.params.id, req.params.type);
+            const result = await mRuasJalan.getDataRuasJalanById(req.params.id);
             res.status(200).json({
                 status: 200,
                 messages: "Data ditemukan",

@@ -27,7 +27,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/ruas/:type", getRuasJalan);
-router.get("/ruas/:type/:id", getRuasJalanById);
+router.get("/ruas-detail/:id", getRuasJalanById);
 // router.get("/ruas", postData);
 
 

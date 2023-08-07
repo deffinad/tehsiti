@@ -19,14 +19,14 @@ class ModelRuasJalan {
         return allData;
     }
 
-    async checkIdRuasJalan(id, type) {
+    async checkIdRuasJalan(id) {
         let doc = ''
 
         const ref = db.collection('ruas-jalan');
         const snapshot = await ref.get();
 
         snapshot.forEach((hasil) => {
-            if (hasil.data().no_ruas === id && hasil.data().type === type) {
+            if (hasil.data().no_ruas === id) {
                 doc = hasil.id
             }
         });
@@ -44,14 +44,14 @@ class ModelRuasJalan {
         }
     }
 
-    async getDataRuasJalanById(id, type) {
+    async getDataRuasJalanById(id) {
         var data = {}
 
         const ref = db.collection('ruas-jalan');
         const snapshot = await ref.get();
 
         snapshot.forEach((hasil) => {
-            if (hasil.data().no_ruas === id && hasil.data().type === type) {
+            if (hasil.data().no_ruas === id) {
                 data = hasil.data()
             }
         });
