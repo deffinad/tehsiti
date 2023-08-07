@@ -26,9 +26,9 @@ router.get("/", function (req, res, next) {
         .json({ message: "Welcome to Express API TEHSITI" });
 });
 
-// router.get("/ruas/:type", getRuasJalan);
+router.get("/ruas/:type", getRuasJalan);
 router.get("/ruas/:type/:id", getRuasJalanById);
-router.get("/ruas/:type", postData);
+// router.get("/ruas/:type", postData);
 
 
 module.exports = router;
