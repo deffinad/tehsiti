@@ -1,5 +1,5 @@
 const ModelRuasJalan = require("../model/ModelRuasJalan");
-const { kota, provinsi, nasional } = require("./data");
+const { kota, provinsi, nasional, allData } = require("./data");
 
 const mRuasJalan = new ModelRuasJalan();
 
@@ -28,8 +28,8 @@ const getRuasJalan = async (req, res) => {
 
 const getRuasJalanById = async (req, res) => {
     try {
-        const checkIdDokter = await mRuasJalan.checkIdRuasJalan(req.params.id, req.params.type);
-        if (checkIdDokter) {
+        const checkIdRuas = await mRuasJalan.checkIdRuasJalan(req.params.id, req.params.type);
+        if (checkIdRuas) {
             const result = await mRuasJalan.getDataRuasJalanById(req.params.id, req.params.type);
             res.status(200).json({
                 status: 200,
@@ -53,14 +53,13 @@ const getRuasJalanById = async (req, res) => {
 const postData = async (req, res) => {
     try {
         let temp = 0;
-        let type = req.params.type === 'kota' ? kota : req.params.type === 'provinsi' ? provinsi : nasional
 
-        type.map(item => {
+        allData.map(item => {
             temp++;
-            mRuasJalan.postDataRuasJalan(item, req.params.type)
+            mRuasJalan.postDataRuasJalan(item)
         })
 
-        if (temp === type.length) {
+        if (temp === allData.length) {
             res.status(200).json({
                 status: 200,
                 messages: "Data berhasil ditambahkan",

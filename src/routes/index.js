@@ -28,7 +28,7 @@ router.get("/", function (req, res, next) {
 
 router.get("/ruas/:type", getRuasJalan);
 router.get("/ruas/:type/:id", getRuasJalanById);
-// router.get("/ruas/:type", postData);
+// router.get("/ruas", postData);
 
 
 module.exports = router;

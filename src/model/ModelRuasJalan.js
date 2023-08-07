@@ -4,11 +4,17 @@ class ModelRuasJalan {
     async getDataRuasJalan(type) {
         var allData = [];
 
-        const ref = db.collection(type);
+        const ref = db.collection('ruas-jalan');
         const snapshot = await ref.get();
 
         snapshot.forEach((hasil) => {
-            allData.push(hasil.data());
+            if (type === 'all') {
+                allData.push(hasil.data());
+            } else {
+                if (hasil.data().type === type) {
+                    allData.push(hasil.data());
+                }
+            }
         });
         return allData;
     }
@@ -16,11 +22,11 @@ class ModelRuasJalan {
     async checkIdRuasJalan(id, type) {
         let doc = ''
 
-        const ref = db.collection(type);
+        const ref = db.collection('ruas-jalan');
         const snapshot = await ref.get();
 
         snapshot.forEach((hasil) => {
-            if (hasil.data().no_ruas === id) {
+            if (hasil.data().no_ruas === id && hasil.data().type === type) {
                 doc = hasil.id
             }
         });
@@ -41,19 +47,19 @@ class ModelRuasJalan {
     async getDataRuasJalanById(id, type) {
         var data = {}
 
-        const ref = db.collection(type);
+        const ref = db.collection('ruas-jalan');
         const snapshot = await ref.get();
 
         snapshot.forEach((hasil) => {
-            if (hasil.data().no_ruas === id) {
+            if (hasil.data().no_ruas === id && hasil.data().type === type) {
                 data = hasil.data()
             }
         });
         return data;
     }
 
-    async postDataRuasJalan(req, type) {
-        const result = db.collection(type).doc().set(req).then(() => {
+    async postDataRuasJalan(req) {
+        const result = db.collection('ruas-jalan').doc().set(req).then(() => {
             return true
         }).catch((error) => {
             return false
