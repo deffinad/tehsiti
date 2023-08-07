@@ -1,16 +1,45 @@
-import React from 'react'
-import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { FlatList, Pressable, TextInput, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { COLORS } from '../../contains'
 import { StatusBar } from 'expo-status-bar'
-import { useNavigation } from '@react-navigation/native'
-import TopTabs from '../../components/TopTabs'
 import { FontAwesome5 } from '@expo/vector-icons'
+import EmptyList from '../../components/EmptyList'
+import Card, { CardInformasiJalan } from '../../components/Card'
 
-const HEIGHT = Dimensions.get('window').height - 80;
+import { getRuasJalan } from '../../services/'
+import { useRoute } from '@react-navigation/native'
 
-const RuasJalan = () => {
-    const navigation = useNavigation()
+const RuasJalan = ({ navigation }) => {
+    const route = useRoute()
+    const { type } = route.params
+    const [dataRuas, setDataRuas] = useState([])
+    const [search, setSearch] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
+
+    useEffect(() => {
+        getRuasJalan(type)
+            .then(data => {
+                setDataRuas(data.data)
+            })
+            .catch(err => {
+                console.error(err);
+            })
+    }, [])
+
+    const handleSearch = (text) => {
+        if (text) {
+            const newData = dataRuas.filter((item) => {
+                return item.ruas_jalan.toLowerCase().includes(text.toLowerCase()) || item.type.toLowerCase().includes(text.toLowerCase())
+            });
+            setFilteredData(newData);
+            setSearch(text);
+        } else {
+            setFilteredData(dataRuas);
+            setSearch(text);
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
@@ -22,12 +51,40 @@ const RuasJalan = () => {
                     </View>
                 </Pressable>
                 <View style={{ display: 'flex', flexDirection: 'row', gap: 8, justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: '600' }}>Informasi Jalan</Text>
+                    <Text style={{ fontSize: 20, fontWeight: '600', textTransform: 'capitalize' }}>
+                        {
+                            type === 'all' ? 'Informasi Semua Jalan' : 'Informasi Jalan ' + type
+                        }
+                    </Text>
                 </View>
             </View>
 
             <View style={{ paddingHorizontal: 24, flex: 1 }}>
-                <TopTabs />
+                <SafeAreaView style={{ display: 'flex', gap: 20, flex: 1 }}>
+                    <Card style={{ paddingHorizontal: 16, paddingVertical: 10, display: 'flex', alignItems: 'center', flexDirection: 'row', gap: 8 }}>
+                        <FontAwesome5 name='search' color='grey' size={18} />
+                        <TextInput
+                            cursorColor={COLORS.primary}
+                            placeholder='Cari type/nama ruas jalan disini'
+                            style={{ fontSize: 16, flex: 1 }}
+                            value={search}
+                            onChangeText={(value) => handleSearch(value)}
+                        />
+                    </Card>
+                    <View style={{ flex: 1 }}>
+                        <FlatList
+                            data={search === '' ? dataRuas : filteredData}
+                            renderItem={({ item, index }) => (
+                                <CardInformasiJalan item={item} index={index} onClick={() => navigation.navigate('Detail', { id: item.no_ruas, type: type })} />
+                            )}
+                            ListEmptyComponent={() => (
+                                <EmptyList />
+                            )}
+                            initialNumToRender={10}
+                            extraData={item => item.no_ruas}
+                        />
+                    </View>
+                </SafeAreaView>
             </View>
 
         </SafeAreaView>

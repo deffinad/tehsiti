@@ -20,11 +20,11 @@ export const getRuasJalan = async (type) => {
     });
 };
 
-export const getRuasJalanById = async (id, type) => {
+export const getRuasJalanById = async (id) => {
     return new Promise((resolve, reject) => {
         axios({
             method: "get",
-            baseURL: BASE_URL + "/ruas/" + type + "/" + id,
+            baseURL: BASE_URL + "/ruas-detail/" + id,
             headers: {
                 "Access-Control-Allow-Origin": "*",
             },

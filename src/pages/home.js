@@ -26,19 +26,23 @@ const dataCarousel = [
 const dataInformasi = [
     {
         icon: 'city',
-        label: 'Kota'
+        label: 'Kota',
+        type: 'kota'
     },
     {
         icon: 'archway',
         label: 'Provinsi',
+        type: 'provinsi'
     },
     {
         icon: 'globe-asia',
-        label: 'Nasional'
+        label: 'Nasional',
+        type: 'nasional'
     },
     {
         icon: 'road',
-        label: 'Lingkungan'
+        label: 'Lingkungan',
+        type: 'lingkungan'
     }
 ]
 
@@ -82,9 +86,9 @@ const Home = () => {
     const [dataRuas, setDataRuas] = useState([])
 
     useEffect(() => {
-        getRuasJalan('kota')
+        getRuasJalan('all')
             .then(data => {
-                setDataRuas(data.data)
+                setDataRuas(data.data.splice(0, 5))
             })
             .catch(err => {
                 console.error(err);
@@ -148,7 +152,7 @@ const Home = () => {
                     <FlatList
                         data={dataInformasi}
                         horizontal={true}
-                        renderItem={({ item, index }) => <CardInformasiItem item={item} index={index} onClick={() => navigation.navigate('Detail', { id: item.no_ruas, nama: item.ruas_jalan, type: 'kota' })} />}
+                        renderItem={({ item, index }) => <CardInformasiItem item={item} index={index} onClick={() => navigation.navigate('RuasJalan', { type: item.type })} />}
                         extraData={item => item.label}
                     />
                 </View>
@@ -159,27 +163,23 @@ const Home = () => {
                         <Text style={{ fontSize: 16, fontWeight: '600' }}>Info Ruas</Text>
                     </View>
 
-                    <Pressable onPress={() => navigation.navigate('RuasJalan')}>
+                    <Pressable onPress={() => navigation.navigate('RuasJalan', { type: 'all' })}>
                         <Text style={{ color: COLORS.primary }}>Lihat Semuanya</Text>
                     </Pressable>
                 </View>
 
                 <View style={{ marginHorizontal: 24 }}>
-                    {
-                        dataRuas ? (
-                            <FlatList
-                                scrollEnabled={false}
-                                data={dataRuas.splice(0, 5)}
-                                renderItem={({ item, index }) => (
-                                    <CardInformasiJalan item={item} index={index} />
-                                )}
-                                extraData={item => item.no_ruas}
-                                ListEmptyComponent={() => (
-                                    <EmptyList />
-                                )}
-                            />
-                        ) : null
-                    }
+                    <FlatList
+                        scrollEnabled={false}
+                        data={dataRuas}
+                        renderItem={({ item, index }) => (
+                            <CardInformasiJalan item={item} index={index} onClick={() => navigation.navigate('Detail', { id: item.no_ruas, type: 'all' })} />
+                        )}
+                        extraData={item => item.no_ruas}
+                        ListEmptyComponent={() => (
+                            <EmptyList />
+                        )}
+                    />
                 </View>
             </SafeAreaView>
         </ScrollView>
