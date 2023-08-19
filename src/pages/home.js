@@ -10,6 +10,7 @@ import CarouselImg3 from './../../assets/carousel3.jpg';
 import CarouselImg4 from './../../assets/carousel4.jpg';
 import { COLORS } from '../contains/index'
 import { CardInformasiItem, CardInformasiJalan } from '../components/Card';
+import { ShimmerCardInformasiJalan } from '../components/ShimmerCard';
 import { useNavigation } from '@react-navigation/native';
 import { getRuasJalan } from '../services';
 import EmptyList from '../components/EmptyList';
@@ -84,11 +85,13 @@ const Home = () => {
     const isCarousel = useRef(null);
     const navigation = useNavigation()
     const [dataRuas, setDataRuas] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         getRuasJalan('all')
             .then(data => {
                 setDataRuas(data.data.splice(0, 5))
+                setLoading(false)
             })
             .catch(err => {
                 console.error(err);
@@ -167,19 +170,30 @@ const Home = () => {
                         <Text style={{ color: COLORS.primary }}>Lihat Semuanya</Text>
                     </Pressable>
                 </View>
-
                 <View style={{ marginHorizontal: 24 }}>
-                    <FlatList
-                        scrollEnabled={false}
-                        data={dataRuas}
-                        renderItem={({ item, index }) => (
-                            <CardInformasiJalan item={item} index={index} onClick={() => navigation.navigate('Detail', { id: item.no_ruas, type: 'all' })} />
-                        )}
-                        extraData={item => item.no_ruas}
-                        ListEmptyComponent={() => (
-                            <EmptyList />
-                        )}
-                    />
+                    {
+                        !loading ? (
+                            <FlatList
+                                scrollEnabled={false}
+                                data={dataRuas}
+                                renderItem={({ item, index }) => (
+                                    <CardInformasiJalan item={item} index={index} onClick={() => navigation.navigate('Detail', { id: item.no_ruas, type: 'all' })} />
+                                )}
+                                extraData={item => item.no_ruas}
+                                ListEmptyComponent={() => (
+                                    <EmptyList />
+                                )}
+                            />
+                        ) : (
+                            <>
+                                <ShimmerCardInformasiJalan />
+                                <ShimmerCardInformasiJalan />
+                                <ShimmerCardInformasiJalan />
+                                <ShimmerCardInformasiJalan />
+                                <ShimmerCardInformasiJalan />
+                            </>
+                        )
+                    }
                 </View>
             </SafeAreaView>
         </ScrollView>

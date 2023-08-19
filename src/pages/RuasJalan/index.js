@@ -6,9 +6,10 @@ import { StatusBar } from 'expo-status-bar'
 import { FontAwesome5 } from '@expo/vector-icons'
 import EmptyList from '../../components/EmptyList'
 import Card, { CardInformasiJalan } from '../../components/Card'
-
+import { ShimmerCardInformasiJalan } from '../../components/ShimmerCard'
 import { getRuasJalan } from '../../services/'
 import { useRoute } from '@react-navigation/native'
+
 
 const RuasJalan = ({ navigation }) => {
     const route = useRoute()
@@ -16,11 +17,13 @@ const RuasJalan = ({ navigation }) => {
     const [dataRuas, setDataRuas] = useState([])
     const [search, setSearch] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         getRuasJalan(type)
             .then(data => {
                 setDataRuas(data.data)
+                setLoading(false)
             })
             .catch(err => {
                 console.error(err);
@@ -43,7 +46,6 @@ const RuasJalan = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar style="auto" />
-
             <View style={{ display: 'flex', justifyContent: 'center', padding: 24, alignItems: 'center' }}>
                 <Pressable onPress={() => navigation.goBack()} style={{ position: 'absolute', left: 24 }}>
                     <View style={{ borderRadius: 100, width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
@@ -72,17 +74,29 @@ const RuasJalan = ({ navigation }) => {
                         />
                     </Card>
                     <View style={{ flex: 1 }}>
-                        <FlatList
-                            data={search === '' ? dataRuas : filteredData}
-                            renderItem={({ item, index }) => (
-                                <CardInformasiJalan item={item} index={index} onClick={() => navigation.navigate('Detail', { id: item.no_ruas, type: type })} />
-                            )}
-                            ListEmptyComponent={() => (
-                                <EmptyList />
-                            )}
-                            initialNumToRender={10}
-                            extraData={item => item.no_ruas}
-                        />
+                        {
+                            !loading ? (
+                                <FlatList
+                                    data={search === '' ? dataRuas : filteredData}
+                                    renderItem={({ item, index }) => (
+                                        <CardInformasiJalan item={item} index={index} onClick={() => navigation.navigate('Detail', { id: item.no_ruas, type: type })} />
+                                    )}
+                                    ListEmptyComponent={() => (
+                                        <EmptyList />
+                                    )}
+                                    initialNumToRender={10}
+                                    extraData={item => item.no_ruas}
+                                />
+                            ) : (
+                                <>
+                                    <ShimmerCardInformasiJalan />
+                                    <ShimmerCardInformasiJalan />
+                                    <ShimmerCardInformasiJalan />
+                                    <ShimmerCardInformasiJalan />
+                                    <ShimmerCardInformasiJalan />
+                                </>
+                            )
+                        }
                     </View>
                 </SafeAreaView>
             </View>

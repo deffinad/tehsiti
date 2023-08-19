@@ -31,11 +31,11 @@ export const CardInformasiJalan = ({ item, index, onClick }) => {
                 <View style={{ display: 'flex', flexDirection: 'row', gap: 4, marginTop: 8 }}>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 6, paddingVertical: 1, backgroundColor: '#e3e3e3', borderRadius: 10 }}>
                         <Text style={{ fontWeight: '600', color: '#61615f' }}>Panjang</Text>
-                        <Text style={{ color: '#61615f' }}>{item.panjang === 0 || item.panjang === undefined ? '-' : item.panjang}</Text>
+                        <Text style={{ color: '#61615f' }}>{item.panjang === 0 || item.panjang === undefined ? '-' : `${item.panjang.toFixed(2)} km`}</Text>
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 6, paddingVertical: 1, backgroundColor: '#e3e3e3', borderRadius: 10 }}>
                         <Text style={{ fontWeight: '600', color: '#61615f' }}>Kapasitas</Text>
-                        <Text style={{ color: '#61615f' }}>{item.kapasitas_jalan === 0 || item.kapasitas_jalan === undefined ? '-' : item.kapasitas_jalan}</Text>
+                        <Text style={{ color: '#61615f' }}>{item.kapasitas_jalan === 0 || item.kapasitas_jalan === undefined ? '-' : item.kapasitas_jalan.toFixed(2)}</Text>
                     </View>
                 </View>
             </Card>
